@@ -19,6 +19,9 @@ var (
 
 	// Where the ServiceKVPath resides
 	KVpath string = "services"
+
+	// Title for specifying herald in flags
+	Title string = "etcd"
 )
 ```
 
@@ -40,6 +43,13 @@ func Machines() []string
 ```go
 func ProcessEtcdErrors(error) error
 ```
+
+#### func  Register
+
+```go
+func Register()
+```
+Register this herald with consul
 
 #### type Etcd
 
