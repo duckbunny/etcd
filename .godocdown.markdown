@@ -1,0 +1,14 @@
+###Etcd
+
+Is the etcd implementation for herald declare.
+
+[![GoDoc](https://godoc.org/github.com/duckbunny/{{ .Name }}?status.svg)](https://godoc.org/github.com/duckbunny/{{ .Name }})
+
+
+{{ .EmitHeader }}
+
+{{ .EmitSynopsis }}
+
+
+{{ .EmitUsage }}
+
