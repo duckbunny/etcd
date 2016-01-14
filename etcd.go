@@ -15,6 +15,7 @@ import (
 
 	"github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
 	"github.com/coreos/etcd/client"
+	"github.com/duckbunny/herald"
 	"github.com/duckbunny/service"
 )
 
@@ -24,6 +25,9 @@ var (
 	upass        string
 	// Where the ServiceKVPath resides
 	KVpath string = "services"
+
+	// Title for specifying herald in flags
+	Title string = "etcd"
 )
 
 func init() {
@@ -102,4 +106,11 @@ func Machines() []string {
 // FormattedKey returns correctly formatted key of the service
 func FormattedKey(s *service.Service) string {
 	return fmt.Sprintf("/%v/%v/%v/%v/definition", KVpath, s.Domain, s.Title, s.Version)
+}
+
+// Register this herald with consul
+func Register() {
+	c := New()
+	herald.AddPool(Title, c)
+	herald.AddDeclaration(Title, c)
 }
