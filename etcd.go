@@ -38,7 +38,7 @@ func init() {
 
 // Etcd structure stores the etcd clients KeysAPI
 type Etcd struct {
-	KeysAPI *client.KeysAPI
+	KeysAPI client.KeysAPI
 }
 
 // New returns a new Etcd struct
@@ -53,23 +53,24 @@ func (e *Etcd) Declare(s *service.Service) error {
 		return err
 	}
 	key := FormattedKey(s)
-	_, err = e.Kapi.Set(context.Background(), key, string(js), nil)
+	_, err = e.KeysAPI.Set(context.Background(), key, string(js), nil)
 	if err != nil {
 		return ProcessEtcdErrors(err)
 	}
+	return nil
 }
 
 // Get retrieves a service per the Declare interface in Herald
 func (e *Etcd) Get(s *service.Service) error {
 	key := FormattedKey(s)
-	p, err = e.Kapi.Get(context.Background(), key, nil)
+	resp, err := e.KeysAPI.Get(context.Background(), key, nil)
 	if err != nil {
 		return ProcessEtcdErrors(err)
 	}
-	return json.Unmarshal(resp.Node.Value, s)
+	return json.Unmarshal([]byte(resp.Node.Value), s)
 }
 
-func ProcessEtcdErrors(error) error {
+func ProcessEtcdErrors(err error) error {
 	if err == context.Canceled {
 		return errors.New("Context cancelled by another routine")
 	} else if err == context.DeadlineExceeded {
@@ -89,18 +90,19 @@ func (e *Etcd) Init() error {
 		Endpoints: Machines(),
 	}
 	if uname != "" {
-		c.Username = uname
+		config.Username = uname
 		if upass != "" {
-			c.Password = uname
+			config.Password = upass
 		} else {
 			return errors.New("Etcd username provided but no password")
 		}
 	}
-	client, err = client.New(config)
+	cl, err := client.New(config)
 	if err != nil {
 		return err
 	}
-	e.KeysAPI = client.NewKeysAPI(client)
+	e.KeysAPI = client.NewKeysAPI(cl)
+	return nil
 }
 
 func Machines() []string {
@@ -115,6 +117,5 @@ func FormattedKey(s *service.Service) string {
 // Register this herald with consul
 func Register() {
 	c := New()
-	herald.AddPool(Title, c)
 	herald.AddDeclaration(Title, c)
 }

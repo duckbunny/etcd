@@ -41,7 +41,7 @@ func Machines() []string
 #### func  ProcessEtcdErrors
 
 ```go
-func ProcessEtcdErrors(error) error
+func ProcessEtcdErrors(err error) error
 ```
 
 #### func  Register
@@ -55,7 +55,7 @@ Register this herald with consul
 
 ```go
 type Etcd struct {
-	KeysAPI *client.KeysAPI
+	KeysAPI client.KeysAPI
 }
 ```
 
