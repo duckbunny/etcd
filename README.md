@@ -59,24 +59,28 @@ type Etcd struct {
 }
 ```
 
+Etcd structure stores the etcd clients KeysAPI
 
 #### func  New
 
 ```go
 func New() *Etcd
 ```
+New returns a new Etcd struct
 
 #### func (*Etcd) Declare
 
 ```go
 func (e *Etcd) Declare(s *service.Service) error
 ```
+Declare the service per the Declare interface in Herald.
 
 #### func (*Etcd) Get
 
 ```go
 func (e *Etcd) Get(s *service.Service) error
 ```
+Get retrieves a service per the Declare interface in Herald
 
 #### func (*Etcd) Init
 
