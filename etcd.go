@@ -36,6 +36,7 @@ func init() {
 	flag.StringVar(&upass, "etcd-pass", os.Getenv("ETCD_PASS"), "The etcd password if secured.")
 }
 
+// Etcd structure stores the etcd clients KeysAPI
 type Etcd struct {
 	KeysAPI *client.KeysAPI
 }
