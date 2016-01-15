@@ -41,6 +41,7 @@ type Etcd struct {
 	KeysAPI *client.KeysAPI
 }
 
+// New returns a new Etcd struct
 func New() *Etcd {
 	return new(Etcd)
 }
