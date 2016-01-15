@@ -46,6 +46,7 @@ func New() *Etcd {
 	return new(Etcd)
 }
 
+// Declares the service per the Declare interface in Herald.
 func (e *Etcd) Declare(s *service.Service) error {
 	js, err := json.Marshal(s)
 	if err != nil {
