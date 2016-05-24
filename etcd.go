@@ -13,7 +13,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
+	"net/context"
+
 	"github.com/coreos/etcd/client"
 	"github.com/duckbunny/herald"
 	"github.com/duckbunny/service"
