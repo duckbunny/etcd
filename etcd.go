@@ -13,10 +13,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/coreos/etcd/Godeps/_workspace/src/golang.org/x/net/context"
 	"github.com/coreos/etcd/client"
 	"github.com/duckbunny/herald"
 	"github.com/duckbunny/service"
+	"golang.org/x/net/context"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 	uname        string
 	upass        string
 	// Where the ServiceKVPath resides
-	KVpath string = "services"
+	KVServicesPath string = "services"
 
 	// Title for specifying herald in flags
 	Title string = "etcd"
@@ -61,7 +61,7 @@ func (e *Etcd) Declare(s *service.Service) error {
 }
 
 // Get retrieves a service per the Declare interface in Herald
-func (e *Etcd) Get(s *service.Service) error {
+func (e *Etcd) GetService(s *service.Service) error {
 	key := FormattedKey(s)
 	resp, err := e.KeysAPI.Get(context.Background(), key, nil)
 	if err != nil {
@@ -111,7 +111,7 @@ func Machines() []string {
 
 // FormattedKey returns correctly formatted key of the service
 func FormattedKey(s *service.Service) string {
-	return fmt.Sprintf("/%v/%v/%v/%v/definition", KVpath, s.Domain, s.Title, s.Version)
+	return fmt.Sprintf("/%v/%v/%v/%v/definition", KVServicesPath, s.Domain, s.Title, s.Version)
 }
 
 // Register this herald with consul
